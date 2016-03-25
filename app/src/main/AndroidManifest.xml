@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.andrei.weader">
 
+    <!-- This permission is necessary in order for the application perform the network access. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
