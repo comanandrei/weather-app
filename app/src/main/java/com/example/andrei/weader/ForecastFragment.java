@@ -62,13 +62,23 @@ public class ForecastFragment extends Fragment {
         // Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id == R.id.action_refresh){
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String location = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-            weatherTask.execute(location);
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather() {
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        weatherTask.execute(location);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     @Override
@@ -76,36 +86,36 @@ public class ForecastFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container,false);
 
-        String[] forecastArray = {
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-                "Today - Sunny - 88/63",
-        };
-
-        List<String> weekForecast = new ArrayList<String>(
-                Arrays.asList(forecastArray)
-        );
+//        String[] forecastArray = {
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//                "Today - Sunny - 88/63",
+//        };
+//
+//        List<String> weekForecast = new ArrayList<String>(
+//                Arrays.asList(forecastArray)
+//        );
 
         mForecastAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
-                weekForecast
+                new ArrayList<String>()
         );
 
         // Get a reference to the ListView, and attach this adapter to it
